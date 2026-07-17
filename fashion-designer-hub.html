@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Design Hub - Trends & Pattern Drafting</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+
+        .nav-tabs button {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 20px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-tabs button:hover {
+            background: #e8e8e8;
+            color: #667eea;
+        }
+
+        .nav-tabs button.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: white;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Trends Section */
+        .trends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .trend-card {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .trend-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .trend-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .trend-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .trend-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .trend-details {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .trend-details strong {
+            color: #764ba2;
+        }
+
+        /* Canvas Section */
+        .canvas-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 250px;
+            gap: 20px;
+        }
+
+        .canvas-container {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        canvas {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;
+            background: white;
+            cursor: crosshair;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .tools-panel {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .tool-section {
+            margin-bottom: 20px;
+        }
+
+        .tool-section h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .color-picker {
+            width: 100%;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .size-slider {
+            width: 100%;
+            margin: 10px 0;
+            height: 6px;
+            border-radius: 3px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .size-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+        }
+
+        .tool-btn {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+        }
+
+        .tool-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .tool-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Pattern Section */
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .pattern-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .pattern-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .pattern-preview {
+            width: 100%;
+            height: 200px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+        }
+
+        .pattern-info {
+            padding: 20px;
+            background: white;
+        }
+
+        .pattern-info h3 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .pattern-info p {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .measurements {
+            background: #f0f2f5;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        .measurements strong {
+            color: #764ba2;
+        }
+
+        .difficulty-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .difficulty-easy {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .difficulty-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .difficulty-hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Design Breakdown Section */
+        .breakdown-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .design-preview {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .design-preview-box {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .breakdown-list {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .breakdown-list h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .breakdown-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .breakdown-item:hover {
+            background: #f0f2f5;
+            border-left-color: #764ba2;
+        }
+
+        .breakdown-item h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .breakdown-item p {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .technique-tag {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-top: 8px;
+            margin-right: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .nav-tabs button {
+                min-width: 120px;
+                padding: 12px 15px;
+                font-size: 0.9em;
+            }
+
+            .canvas-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .breakdown-container {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            canvas {
+                max-width: 100%;
+            }
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #667eea, transparent);
+            margin: 30px 0;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: #555;
+        }
+
+        .info-box strong {
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✨ Fashion Design Hub</h1>
+            <p>Explore trends, sketch designs, draft patterns & master complex styles</p>
+        </header>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('trends')">📊 Current Trends</button>
+            <button class="tab-btn" onclick="switchTab('sketch')">✏️ Design Canvas</button>
+            <button class="tab-btn" onclick="switchTab('patterns')">📐 Pattern Drafting</button>
+            <button class="tab-btn" onclick="switchTab('breakdown')">🎨 Design Breakdown</button>
+        </div>
+
+        <div class="content">
+            <!-- TRENDS TAB -->
+            <div id="trends" class="tab-content active">
+                <h2 style="color: #667eea; margin-bottom: 30px;">🔥 Current Fashion Trends 2024-2025</h2>
+                
+                <div class="trends-grid">
+                    <div class="trend-card">
+                        <div class="trend-icon">👗</div>
+                        <h3>Maximalism</h3>
+                        <p>Bold patterns, vibrant colors, and layered fabrics dominate. Mix and match textures for statement looks.</p>
+                        <div class="trend-details">
+                            <strong>Key Elements:</strong> Oversized silhouettes, clashing prints, bold accessories, rich fabrics (velvet, silk, sequins)
+                        </div>
+                    </div>
+
+                    <div class="trend-card">
+                        <div class="trend-icon">🌱</div>
+                        <h3>Sustainability</h3>
+                        <p>Eco-conscious designs using organic materials, recycled fabrics, and ethical production methods.</p>
+                        <div class="trend-details">
+                            <strong>Key Elements:</strong> Natural fibers, deadstock fabrics, zero-waste patterns, ethical sourcing
+                        </div>
+                    </div>
+
+                    <div class="trend-card">
+                        <div class="trend-icon">🎯</div>
+                        <h3>Asymmetry</h3>
+                        <p>Off-center cuts, uneven hemlines, and asymmetrical necklines create edgy, modern silhouettes.</p>
+                        <div class="trend-details">
+                            <strong>Key Elements:</strong> One-shoulder designs, diagonal seams, draped asymmetry, uneven layers
+                        </div>
+                    </div>
+
+                    <div class="trend-card">
+                        <div class="trend-icon">✨</div>
+                        <h3>Sheer & Transparency</h3>
+                        <p>Strategic use of transparent fabrics with creative layering and undergarment design plays.</p>
+                        <div class="trend-details">
+                            <strong>Key Elements:</strong> Mesh overlays, strategic placement, layered sheerness, illusion panels
+                        </div>
+                    </div>
+
+                    <div class="trend-card">
+                        <div class="trend-icon">👠</div>
+                        <h3>Gender-Fluid Fashion</h3>
+                        <p>Blurring traditional gender lines with oversized fits, mixed proportions, and boundary-breaking styles.</p>
+                        <div class="trend-details">
+                            <strong>Key Elements:</strong> Tailored pieces on everyone, oversized silhouettes, mixed masculine/feminine details
+                        </div>
+                    </div>
+
+                    <div class="trend-card">
+                        <div class="trend-icon">🔗</div>
+                        <h3>Cut-Outs & Slits</h3>
+                        <p>Strategic cutouts on shoulders, sides, and back create playful, flirty, and sophisticated reveals.</p>
+                        <div class="trend-details">
+                            <strong>Key Elements:</strong> Shoulder cutouts, side slits, geometric shapes, contrasting linings
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+                <div class="info-box">
+                    <strong>💡 Design Tip:</strong> Combine multiple trends for unique pieces! Mix maximalism with sustainability by using bold prints on eco-friendly fabrics.
+                </div>
+            </div>
+
+            <!-- SKETCH TAB -->
+            <div id="sketch" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 20px;">✏️ Design Canvas - Sketch Your Ideas</h2>
+                <p style="color: #666; margin-bottom: 20px;">Draw your design concepts directly on the canvas. Experiment with shapes, lines, and details.</p>
+                
+                <div class="canvas-wrapper">
+                    <div class="canvas-container">
+                        <canvas id="drawingCanvas" width="800" height="600"></canvas>
+                    </div>
+
+                    <div class="tools-panel">
+                        <div class="tool-section">
+                            <h4>Drawing Mode</h4>
+                            <button class="tool-btn active" onclick="setMode('pen')">✏️ Pen</button>
+                            <button class="tool-btn" onclick="setMode('eraser')">🗑️ Eraser</button>
+                            <button class="tool-btn" onclick="setMode('line')">📏 Line</button>
+                            <button class="tool-btn" onclick="setMode('circle')">⭕ Circle</button>
+                            <button class="tool-btn" onclick="setMode('rectangle')">▭ Rectangle</button>
+                        </div>
+
+                        <div class="tool-section">
+                            <h4>Color</h4>
+                            <input type="color" id="colorPicker" class="color-picker" value="#667eea">
+                        </div>
+
+                        <div class="tool-section">
+                            <h4>Brush Size</h4>
+                            <input type="range" id="sizeslider" class="size-slider" min="1" max="50" value="3">
+                            <span id="sizevalue">3px</span>
+                        </div>
+
+                        <div class="tool-section">
+                            <h4>Actions</h4>
+                            <button class="tool-btn" onclick="clearCanvas()">🔄 Clear</button>
+                            <button class="tool-btn" onclick="downloadDesign()">⬇️ Download</button>
+                        </div>
+
+                        <div class="tool-section">
+                            <h4>Shortcuts</h4>
+                            <div style="font-size: 0.8em; color: #666; line-height: 1.8;">
+                                <div>C = Clear</div>
+                                <div>E = Eraser</div>
+                                <div>P = Pen</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PATTERNS TAB -->
+            <div id="patterns" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 30px;">📐 Pattern Drafting Guide</h2>
+                <p style="color: #666; margin-bottom: 30px;">Master essential pattern pieces with step-by-step guidance and measurements.</p>
+
+                <div class="pattern-grid">
+                    <div class="pattern-card">
+                        <div class="pattern-preview">👔</div>
+                        <div class="pattern-info">
+                            <h3>Basic Bodice</h3>
+                            <p>Foundation pattern for most garments. Learn to draft fitted and relaxed bodice blocks.</p>
+                            <div class="measurements">
+                                <strong>Measurements:</strong><br>
+                                Bust, Waist, Shoulder width, Armhole depth
+                            </div>
+                            <span class="difficulty-badge difficulty-easy">Beginner</span>
+                            <div style="margin-top: 12px; font-size: 0.85em; color: #666;">
+                                <strong>Steps:</strong> 1. Take measurements 2. Draw base lines 3. Create dart placement 4. Mark seam allowances
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pattern-card">
+                        <div class="pattern-preview">👖</div>
+                        <div class="pattern-info">
+                            <h3>Trouser/Pant Block</h3>
+                            <p>Classic pants pattern drafting covering fit, rise, and leg proportions.</p>
+                            <div class="measurements">
+                                <strong>Measurements:</strong><br>
+                                Waist, Hips, Inseam, Thigh width, Knee, Ankle
+                            </div>
+                            <span class="difficulty-badge difficulty-medium">Intermediate</span>
+                            <div style="margin-top: 12px; font-size: 0.85em; color: #666;">
+                                <strong>Steps:</strong> 1. Calculate proportions 2. Front block 3. Back block 4. Side seams
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pattern-card">
+                        <div class="pattern-preview">👗</div>
+                        <div class="pattern-info">
+                            <h3>Skirt Patterns</h3>
+                            <p>From A-line to pencil, master various skirt silhouettes and draping.</p>
+                            <div class="measurements">
+                                <strong>Measurements:</strong><br>
+                                Waist, Hip, Length, Hem allowance
+                            </div>
+                            <span class="difficulty-badge difficulty-easy">Beginner</span>
+                            <div style="margin-top: 12px; font-size: 0.85em; color: #666;">
+                                <strong>Styles:</strong> A-line, pencil, circle, pleated, gored
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pattern-card">
+                        <div class="pattern-preview">🫀</div>
+                        <div class="pattern-info">
+                            <h3>Sleeve Types</h3>
+                            <p>Comprehensive guide to sleeve patterns: set-in, kimono, raglan, and flutter.</p>
+                            <div class="measurements">
+                                <strong>Measurements:</strong><br>
+                                Armhole depth, Sleeve length, Cap height
+                            </div>
+                            <span class="difficulty-badge difficulty-medium">Intermediate</span>
+                            <div style="margin-top: 12px; font-size: 0.85em; color: #666;">
+                                <strong>Types:</strong> Set-in, kimono, raglan, bell, flutter, puffed
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pattern-card">
+                        <div class="pattern-preview">👢</div>
+                        <div class="pattern-info">
+                            <h3>Collar & Neckline</h3>
+                            <p>Design professional collars, necklines and neck finishes for any garment.</p>
+                            <div class="measurements">
+                                <strong>Measurements:</strong><br>
+                                Neck circumference, Collar stand, Point length
+                            </div>
+                            <span class="difficulty-badge difficulty-medium">Intermediate</span>
+                            <div style="margin-top: 12px; font-size: 0.85em; color: #666;">
+                                <strong>Options:</strong> Shirt, Peter Pan, spread, club, boat, V-neck
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pattern-card">
+                        <div class="pattern-preview">🎩</div>
+                        <div class="pattern-info">
+                            <h3>Advanced Techniques</h3>
+                            <p>Master grading, draping, and complex pattern manipulation techniques.</p>
+                            <div class="measurements">
+                                <strong>Topics:</strong><br>
+                                Grading, pivoting, splicing, draping fundamentals
+                            </div>
+                            <span class="difficulty-badge difficulty-hard">Advanced</span>
+                            <div style="margin-top: 12px; font-size: 0.85em; color: #666;">
+                                <strong>Learn:</strong> Sizing systems, pattern grading, design modifications
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+                <div class="info-box">
+                    <strong>📋 Pro Tip:</strong> Always add 0.5-1 inch seam allowance to your patterns. Use tracing paper to transfer patterns to fabric for accuracy.
+                </div>
+            </div>
+
+            <!-- DESIGN BREAKDOWN TAB -->
+            <div id="breakdown" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 30px;">🎨 Complex Design Breakdown</h2>
+                <p style="color: #666; margin-bottom: 30px;">Learn to analyze and deconstruct intricate fashion designs into manageable components.</p>
+
+                <div class="breakdown-container">
+                    <div class="design-preview">
+                        <h3 style="color: #667eea; margin-bottom: 20px;">Structured Blazer Design</h3>
+                        <div class="design-preview-box">🧥</div>
+                        <p style="color: #666; font-size: 0.95em;">Classic tailored blazer with contemporary twist</p>
+                    </div>
+
+                    <div class="breakdown-list">
+                        <h3>Component Breakdown</h3>
+
+                        <div class="breakdown-item">
+                            <h4>1. Overall Silhouette</h4>
+                            <p>Fitted through the torso with slightly dropped shoulders and nipped-in waist. Creates hourglass shape that's both professional and modern.</p>
+                            <span class="technique-tag">Tailoring</span>
+                            <span class="technique-tag">Fitting</span>
+                        </div>
+
+                        <div class="breakdown-item">
+                            <h4>2. Collar Construction</h4>
+                            <p>Notch collar with elongated point (2.5 inches). Use interfacing for structure. Hand-stitch collar for professional finish.</p>
+                            <span class="technique-tag">Interfacing</span>
+                            <span class="technique-tag">Hand-sewing</span>
+                        </div>
+
+                        <div class="breakdown-item">
+                            <h4>3. Button Placement</h4>
+                            <p>Three-button front with single-breasted construction. Space buttons 4.5 inches apart. Place top button at chest point for flattering fit.</p>
+                            <span class="technique-tag">Button work</span>
+                            <span class="technique-tag">Proportions</span>
+                        </div>
+
+                        <div class="breakdown-item">
+                            <h4>4. Sleeve Cap</h4>
+                            <p>Set-in sleeve with ease stitching. Cap height 4 inches with subtle gathering at crown. Match grain lines for proper hang.</p>
+                            <span class="technique-tag">Ease</span>
+                            <span class="technique-tag">Grain line</span>
+                        </div>
+
+                        <div class="breakdown-item">
+                            <h4>5. Dart Placement</h4>
+                            <p>Front bodice darts from waist point. Back darts from mid-shoulder blade. Creates smooth, sculpted fit without bulk.</p>
+                            <span class="technique-tag">Darts</span>
+                            <span class="technique-tag">Shaping</span>
+                        </div>
+
+                        <div class="breakdown-item">
+                            <h4>6. Pocket Details</h4>
+                            <p>Welt pockets with piping detail. Positioned 2 inches from side seam and 2 inches above waist. Adds both function and visual interest.</p>
+                            <span class="technique-tag">Pockets</span>
+                            <span class="technique-tag">Detail work</span>
+                        </div>
+
+                        <div class="breakdown-item">
+                            <h4>7. Lining & Interlining</h4>
+                            <p>Full coat lining with 2-inch hem allowance. Lightweight interfacing on front facings. Tack at armholes and side seams for stability.</p>
+                            <span class="technique-tag">Lining</span>
+                            <span class="technique-tag">Structure</span>
+                        </div>
+
+                        <div class="breakdown-item">
+                            <h4>8. Seam Finishes</h4>
+                            <p>French seams on sleeves, bound seams on body for durability. Press seams open then edge-stitch for professional appearance.</p>
+                            <span class="technique-tag">Seam finishing</span>
+                            <span class="technique-tag">Quality</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <h3 style="color: #667eea; margin-bottom: 30px; margin-top: 40px;">🌟 Additional Complex Designs</h3>
+
+                <div class="breakdown-container">
+                    <div class="design-preview">
+                        <h3 style="color: #667eea; margin-bottom: 20px;">Statement Evening Gown</h3>
+                        <div class="design-preview-box">✨</div>
+                        <p style="color: #666; font-size: 0.95em;">Dramatic floor-length with architectural elements</p>
+                    </div>
+
+                    <div class="breakdown-list">
+                        <h3>Complexity Analysis</h3>
+
+                        <div class="breakdown-item">
+                            <h4>Bodice Structure</h4>
+                            <p>Structured corset-style bodice with boning channels. Internal stays for support. Asymmetrical cut with one bare shoulder creating dramatic contrast.</p>
+                            <span class="technique-tag">Boning</span>
+                            <span class="technique-tag">Corsetry</span>
+                        </div>
+
+                        <div class="breakdown-item">
+                            <h4>Skirt Layers</h4>
+                            <p>Multi-layer construction: silk charmeuse base + tulle overlay + hand-pleated silk. Creates movement and visual depth. Train extends 12 inches beyond hem.</p>
+                            <span class="technique-tag">Layering</span>
+                            <span class="technique-tag">Pleating</span>
+                        </div>
+
+                        <div class="breakdown-item">
+                            <h4>Embellishment</h4>
+                            <p>Hand-sewn Swarovski crystals on bodice with gradient effect. Beadwork requires 80+ hours. Apply stones to toile first, then transfer to final fabric.</p>
+                            <span class="technique-tag">Beading</span>
+                            <span class="technique-tag">Hand work</span>
+                        </div>
+
+                        <div class="breakdown-item">
+                            <h4>Closure System</h4>
+                            <p>Invisible zipper center back with snap placket. Hook & eye closures above zipper. Corset lacing detail for styling option. Ensures secure, elegant fit.</p>
+                            <span class="technique-tag">Closures</span>
+                            <span class="technique-tag">Functionality</span>
+                        </div>
+
+                        <div class="breakdown-item">
+                            <h4>Finishing</h4>
+                            <p>Rolled hem on all raw edges using 45-degree bias tape. Hand-stitched for invisible finish. Lining sewn by hand to maintain fluidity and structure.</p>
+                            <span class="technique-tag">Hems</span>
+                            <span class="technique-tag">Details</span>
+                        </div>
+
+                        <div class="breakdown-item">
+                            <h4>Proportions</h4>
+                            <p>Bodice 14 inches long, skirt 42 inches with 2-yard circumference at hem. Creates elegant A-line silhouette that flows gracefully when walking.</p>
+                            <span class="technique-tag">Proportions</span>
+                            <span class="technique-tag">Balance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+                <div class="info-box">
+                    <strong>🎓 Master Key:</strong> Break complex designs into simple geometric shapes first. Understand how each piece contributes to the overall silhouette before diving into details.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+
+            // Initialize canvas on sketch tab
+            if (tabName === 'sketch') {
+                initializeCanvas();
+            }
+        }
+
+        // Canvas drawing functionality
+        let canvas, ctx;
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let drawMode = 'pen';
+        let currentColor = '#667eea';
+        let brushSize = 3;
+
+        function initializeCanvas() {
+            canvas = document.getElementById('drawingCanvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+
+            // Touch events for mobile
+            canvas.addEventListener('touchstart', handleTouch);
+            canvas.addEventListener('touchmove', handleTouch);
+            canvas.addEventListener('touchend', stopDrawing);
+        }
+
+        function handleTouch(e) {
+            if (!canvas) return;
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 'mousemove', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(mouseEvent);
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key.toLowerCase() === 'c') clearCanvas();
+            if (e.key.toLowerCase() === 'e') setMode('eraser');
+            if (e.key.toLowerCase() === 'p') setMode('pen');
+        });
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            lastX = e.clientX - rect.left;
+            lastY = e.clientY - rect.top;
+        }
+
+        function draw(e) {
+            if (!isDrawing || !canvas) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            ctx.strokeStyle = drawMode === 'eraser' ? '#ffffff' : currentColor;
+            ctx.lineWidth = brushSize;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            if (drawMode === 'eraser') {
+                ctx.clearRect(x - brushSize / 2, y - brushSize / 2, brushSize, brushSize);
+            } else if (drawMode === 'pen') {
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+            }
+
+            lastX = x;
+            lastY = y;
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function setMode(mode) {
+            drawMode = mode;
+            
+            // Update button styles
+            const buttons = document.querySelectorAll('.tool-btn');
+            buttons.forEach(btn => {
+                if (btn.textContent.includes('✏️') && mode === 'pen') btn.classList.add('active');
+                else if (btn.textContent.includes('🗑️') && mode === 'eraser') btn.classList.add('active');
+                else if (btn.textContent.includes('📏') && mode === 'line') btn.classList.add('active');
+                else if (btn.textContent.includes('⭕') && mode === 'circle') btn.classList.add('active');
+                else if (btn.textContent.includes('▭') && mode === 'rectangle') btn.classList.add('active');
+                else if (btn.textContent.includes('✏️') || btn.textContent.includes('🗑️') || btn.textContent.includes('📏') || btn.textContent.includes('⭕') || btn.textContent.includes('▭')) {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        function clearCanvas() {
+            if (canvas) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        function downloadDesign() {
+            if (canvas) {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL('image/png');
+                link.download = 'fashion-design.png';
+                link.click();
+            }
+        }
+
+        // Color picker and size slider
+        document.addEventListener('DOMContentLoaded', function() {
+            const colorPicker = document.getElementById('colorPicker');
+            const sizeSlider = document.getElementById('sizeslider');
+            const sizeValue = document.getElementById('sizevalue');
+
+            if (colorPicker) {
+                colorPicker.addEventListener('change', function() {
+                    currentColor = this.value;
+                });
+            }
+
+            if (sizeSlider) {
+                sizeSlider.addEventListener('input', function() {
+                    brushSize = this.value;
+                    sizeValue.textContent = brushSize + 'px';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
