@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Design Hub - Trends & Pattern Drafting</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+
+        .nav-tabs button {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 20px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-tabs button:hover {
+            background: #e8e8e8;
+            color: #667eea;
+        }
+
+        .nav-tabs button.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: white;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Trends Section */
+        .trends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .trend-card {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .trend-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .trend-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .trend-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .trend-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .trend-details {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .trend-details strong {
+            color: #764ba2;
+        }
+
+        /* Canvas Section */
+        .canvas-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 250px;
+            gap: 20px;
+        }
+
+        .canvas-container {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        canvas {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;
+            background: white;
+            cursor: crosshair;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .tools-panel {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .tool-section {
+            margin-bottom: 20px;
+        }
+
+        .tool-section h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .color-picker {
+            width: 100%;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .size-slider {
+            width: 100%;
+            margin: 10px 0;
+            height: 6px;
+            border-radius: 3px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .size-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+        }
+
+        .tool-btn {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+        }
+
+        .tool-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .tool-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Pattern Section */
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .pattern-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .pattern-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .pattern-preview {
+            width: 100%;
+            height: 200px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+        }
+
+        .pattern-info {
+            padding: 20px;
+            background: white;
+        }
+
+        .pattern-info h3 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .pattern-info p {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .measurements {
+            background: #f0f2f5;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        .measurements strong {
+            color: #764ba2;
+        }
+
+        .difficulty-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .difficulty-easy {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .difficulty-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .difficulty-hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Design Breakdown Section */
+        .breakdown-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .design-preview {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .design-preview-box {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .breakdown-list {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .breakdown-list h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .breakdown-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .breakdown-item:hover {
+            background: #f0f2f5;
+            border-left-color: #764ba2;
+        }
+
+        .breakdown-item h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .breakdown-item p {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .technique-tag {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-top: 8px;
+            margin-right: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .nav-tabs button {
+                min-width: 120px;
+                padding: 12px 15px;
+                font-size: 0.9em;
+            }
+
+            .canvas-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .breakdown-container {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            canvas {
+                max-width: 100%;
+            }
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #667eea, transparent);
+            margin: 30px 0;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: #555;
+        }
+
+        .info-box strong {
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✨ Fashion Design Hub</h1>
+            <p>Explore trends, sketch designs, draft patterns & master complex styles</p>
+        </header>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('trends')">📊 Current Trends</button>
+            <button class="tab-btn" onclick="switchTab('sketch')">✏️ Design Canvas</button>
+            <button class="tab-btn" onclick="switchTab('patterns')">📐 Pattern Drafting</button>
+            <button class="tab-btn" onclick="switchTab('breakdown')">🎨 Design Breakdown</button>
+        </div>
+
+        <div class="content">
+            <!-- TRENDS TAB -->
+            <div id="trends" class="tab-content active">
+                <h2 style="color: #667eea; margin-bottom: 30px;">🔥 Current Fashion Trends 2024-2025</h2>
+                
+                <div class="trends-grid">
+                    <div class="trend-card">
+                        <div class="trend-icon">👗</div>
+                        <h3>Maximalism</h3>
+                        <p>Bold patterns, vibrant colors, and layered fabrics dominate. Mix and match textures for statement looks.</p>
+                        <div class="trend-details">
+                            <strong>Key Elements:</strong> Oversized silhouettes, clashing prints, bold accessories, rich fabrics (velvet, silk, sequins)
+                        </div>
+                    </div>
+
+                    <div class="trend-card">
+                        <div class="trend-icon">🌱</div>
+                        <h3>Sustainability</h3>
+                        <p>Eco-conscious designs using organic materials, recycled fabrics, and ethical production methods.</p>
+                        <div class="trend-details">
+                            <strong>Key Elements:</strong> Natural fibers, deadstock fabrics, zero-waste patterns, ethical sourcing
+                        </div>
+                    </div>
+
+                    <div class="trend-card">
+                        <div class="trend-icon">🎯</div>
+                        <h3>Asymmetry</h3>
+                        <p>Off-center cuts, uneven hemlines, and asymmetrical necklines create edgy, modern silhouettes.</p>
+                        <div class="trend-details">
+                            <strong>Key Elements:</strong> One-shoulder designs, diagonal seams, draped asymmetry, uneven layers
+                        </div>
+                    </div>
+
+                    <div class="trend-card">
+                        <div class="trend-icon">✨</div>
+                        <h3>Sheer & Transparency</h3>
+                        <p>Strategic use of transparent fabrics with creative layering and undergarment design plays.</p>
+                        <div class="trend-details">
+                            <strong>Key Elements:</strong> Mesh overlays, strategic placement, layered sheerness, illusion panels
+                        </div>
+                    </div>
+
+                    <div class="trend-card">
+                        <div class="trend-icon">👠</div>
+                        <h3>Gender-Fluid Fashion</h3>
+                        <p>Blurring traditional gender lines with oversized fits, mixed proportions, and boundary-breaking styles.</p>
+                        <div class="trend-details">
+                            <strong>Key Elements:</strong> Tailored pieces on everyone, oversized silhouettes, mixed masculine/feminine details
+                        </div>
+                    </div>
+
+                    <div class="trend-card">
+                        <div class="trend-icon">🔗</div>
+                        <h3>Cut-Outs & Slits</h3>
+                        <p>Strategic cutouts on shoulders, sides, and back create playful, flirty, and sophisticated reveals.</p>
+                        <div class="trend-details">
+                            <strong>Key Elements:</strong> Shoulder cutouts, side slits, geometric shapes, contrasting linings
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+                <div class="info-box">
+                    <strong>💡 Design Tip:</strong> Combine multiple trends for unique pieces! Mix maximalism with sustainability by using bold prints on eco-friendly fabrics.
+                </div>
+            </div>
+
+            <!-- SKETCH TAB -->
+            <div id="sketch" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 20px;">✏️ Design Canvas - Sketch Your Ideas</h2>
+                <p style="color: #666; margin-bottom: 20px;">Draw your design concepts directly on the canvas. Experiment with shapes, lines, and details.</p>
+                
+                <div class="canvas-wrapper">
+                    <div class="canvas-container">
+                        <canvas id="drawingCanvas" width="800" height="600"></canvas>
+                    </div>
+
+                    <div class="tools-panel">
+                        <div class="tool-section">
+                            <h4>Drawing Mode</h4>
+                            <button class="tool-btn active" onclick="setMode('pen')">✏️ Pen</button>
+                            <button class="tool-btn" onclick="setMode('eraser')">🗑️ Eraser</button>
+                            <button class="tool-btn" onclick="setMode('line')">📏 Line</button>
+                            <button class="tool-btn" onclick="setMode('circle')">⭕ Circle</button>
+                            <button class="tool-btn" onclick="setMode('rectangle')">▭ Rectangle</button>
+                        </div>
+
+                        <div class="tool-section">
+                            <h4>Color</h4>
+                            <input type="color" id="colorPicker" class="color-picker" value="#667eea">
+                        </div>
+
+                        <div class="tool-section">
+                            <h4>Brush Size</h4>
+                            <input type="range" id="sizeslider" class="size-slider" min="1" max="50" value="3">
+                            <span id="sizevalue">3px</span>
+                        </div>
+
+                        <div class="tool-section">
+                            <h4>Actions</h4>
+                            <button class="tool-btn" onclick="clearCanvas()">🔄 Clear</button>
+                            <button class="tool-btn" onclick="downloadDesign()">⬇️ Download</button>
+                        </div>
+
+                        <div class="tool-section">
+                            <h4>Shortcuts</h4>
+                            <div style="font-size: 0.8em; color: #666; line-height: 1.8;">
+                                <div>C = Clear</div>
+                                <div>E = Eraser</div>
+                                <div>P = Pen</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PATTERNS TAB -->
+            <div id="patterns" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 30px;">📐 Pattern Drafting Guide</h2>
+                <p style="color: #666; margin-bottom: 30px;">Master essential pattern pieces with step-by-step guidance and measurements.</p>
+
+                <div class="pattern-grid">
+                    <div class="pattern-card">
+                        <div class="pattern-preview">👔</div>
+                        <div class="pattern-info">
+                            <h3>Basic Bodice</h3>
+                            <p>Foundation pattern for most garments. Learn to draft fitted and relaxed bodice blocks.</p>
+                            <div class="measurements">
+                                <strong>Measurements:</strong><br>
+                                Bust, Waist, Shoulder width, Armhole depth
+                            </div>
+                            <span class="difficulty-badge difficulty-easy">Beginner</span>
+                            <div style="margin-top: 12px; font-size: 0.85em; color: #666;">
+                                <strong>Steps:</strong> 1. Take measurements 2. Draw base lines 3. Create dart placement 4. Mark seam allowances
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pattern-card">
+                        <div class="pattern-preview">👖</div>
+                        <div class="pattern-info">
+                            <h3>Trouser/Pant Block</h3>
+                            <p>Classic pants pattern drafting covering fit, rise, and leg proportions.</p>
+                            <div class="measurements">
+                                <strong>Measurements:</strong><br>
+                                Waist, Hips, Inseam, Thig
